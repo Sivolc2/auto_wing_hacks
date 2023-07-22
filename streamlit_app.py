@@ -121,7 +121,8 @@ with tabs[1]:
 
             file_name = f"{product.replace(' ','_')}.xlsx"
 
-            mrkl.run(product, tool="Product Search")
+            # mrkl.run(product, tool="Product Search")
+            search_for_products(product)
 
             if Path(file_name).exists():
 

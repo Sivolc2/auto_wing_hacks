@@ -26,13 +26,13 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
-def search_for_products():
+def search_for_products(product):
     # Multi-line input for user to list products
-    products = st.text_area("List of Products", "Enter products separated by line").split('\n')
+    
     ## Pull products from external user
 
     # If products are given, start the search process
-    if products:
+    if product:
         llm = ChatOpenAI(model_name="gpt-3.5-turbo", openai_api_key=openai_api_key, streaming=True)
         search_agent = initialize_agent(
             tools=[DuckDuckGoSearchRun(name="Search")],
@@ -40,16 +40,16 @@ def search_for_products():
             agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
             handle_parsing_errors=True,
         )
-        for product in products:
-            # Use the product name as a prompt to the assistant for a search
-            prompt = f"Tell me more about the product: {product}"
-            st.session_state.messages.append({"role": "user", "content": prompt})
-            st.chat_message("user").write(prompt)
+        # for product in products:
+        # Use the product name as a prompt to the assistant for a search
+        prompt = f"Tell me more about the product: {product}"
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        st.chat_message("user").write(prompt)
 
-            with st.chat_message("assistant"):
-                st_cb = StreamlitCallbackHandler(st.container(), expand_new_thoughts=False)
-                response = search_agent.run([{"role": "user", "content": prompt}], callbacks=[st_cb])
-                st.session_state.messages.append({"role": "assistant", "content": response})
-                st.write(response)
+        with st.chat_message("assistant"):
+            st_cb = StreamlitCallbackHandler(st.container(), expand_new_thoughts=False)
+            response = search_agent.run([{"role": "user", "content": prompt}], callbacks=[st_cb])
+            st.session_state.messages.append({"role": "assistant", "content": response})
+            st.write(response)
 
 search_for_products()
