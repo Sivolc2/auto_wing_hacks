@@ -13,9 +13,10 @@ from langchain.callbacks import StreamlitCallbackHandler
 from langchain.chains import LLMMathChain, SQLDatabaseChain
 from langchain.llms import OpenAI
 from langchain.utilities import DuckDuckGoSearchAPIWrapper
-
+from langchain.agents import load_tools
 from streamlit_agent.callbacks.capturing_callback_handler import playback_callbacks
 from streamlit_agent.clear_results import with_clear_container
+from langchain.utilities import GoogleSerperAPIWrapper
 
 from product_search import search_for_products
 
@@ -54,16 +55,17 @@ enable_custom = True
 
 # Tools setup
 llm = OpenAI(temperature=0, openai_api_key=openai_api_key, streaming=True)
-search = DuckDuckGoSearchAPIWrapper()
+# search = DuckDuckGoSearchAPIWrapper()
 llm_math_chain = LLMMathChain.from_llm(llm)
 db = SQLDatabase.from_uri(f"sqlite:///{DB_PATH}")
 db_chain = SQLDatabaseChain.from_llm(llm, db)
+search_google = GoogleSerperAPIWrapper()
 tools = [
-    Tool(
-        name="Search",
-        func=search.run,
-        description="useful for when you need to answer questions about current events. You should ask targeted questions",
-    ),
+    # Tool(
+    #     name="Search",
+    #     func=search.run,
+    #     description="useful for when you need to answer questions about current events. You should ask targeted questions",
+    # ),
     Tool(
         name="Calculator",
         func=llm_math_chain.run,
@@ -78,6 +80,11 @@ tools = [
        name="Mermaid",
        func=mermaid.run,
        description="will display the provided mermaid diagram to the user. Input should be a mermaid diagram"
+    ),
+    Tool(
+        name="Search Google",
+        func=search_google.run,
+        description="useful for when you need to ask with search"
     )
 ]
 
@@ -102,38 +109,72 @@ with tabs[0]:
         submit_clicked = st.form_submit_button("Submit Question")
 
 # QA tab code
-with tabs[1]:
+# with tabs[1]:
 
+#     products = st.text_input("Enter comma-separated list of products")
+    
+#     if products:
+
+#         products = [p.strip() for p in products.split(",")]
+
+#         for product in products:
+
+#             st.header(product)
+
+#             file_name = f"{product.replace(' ','_')}.xlsx"
+
+#             mrkl.run(product, tool="Search Google")
+#             # search_for_products(product)
+
+#             if Path(file_name).exists():
+
+#                 df = openpyxl.load_workbook(file_name).active
+
+#                 st.dataframe(df)
+
+#                 st.download_button(
+
+#                     label="📥 Download Results",
+
+#                     data=df.excel.bytes,
+
+#                     file_name=file_name
+
+#                 )
+with tabs[1]:
     products = st.text_input("Enter comma-separated list of products")
     
     if products:
-
         products = [p.strip() for p in products.split(",")]
 
         for product in products:
-
             st.header(product)
 
+            # Get the result from the agent
+            result = mrkl.run(product, tool="Search Google")
+            
+            # Assume result is a list of dictionaries for this example
+            df = pd.DataFrame(result)
+
+            # Summarize the data as required (this step depends on the structure and nature of your data)
+            # df = df.groupby(...).sum()  # Example summarization
+            
             file_name = f"{product.replace(' ','_')}.xlsx"
 
-            # mrkl.run(product, tool="Product Search")
-            search_for_products(product)
+            # Save to Excel
+            df.to_excel(file_name, index=False)
 
-            if Path(file_name).exists():
+            # Display the DataFrame
+            st.dataframe(df)
 
-                df = openpyxl.load_workbook(file_name).active
+            # Provide download link
+            st.download_button(
+                label="📥 Download Results",
+                data=df.to_excel(index=False, engine='openpyxl'),
+                file_name=file_name,
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
 
-                st.dataframe(df)
-
-                st.download_button(
-
-                    label="📥 Download Results",
-
-                    data=df.excel.bytes,
-
-                    file_name=file_name
-
-                )
 
 # output_container = st.empty()
 # if with_clear_container(submit_clicked):

@@ -48,4 +48,4 @@ def search_for_products(product):
             response = search_agent.run([{"role": "user", "content": prompt}], callbacks=[st_cb])
             st.session_state.messages.append({"role": "assistant", "content": response})
             st.write(response)
-
+    return response
