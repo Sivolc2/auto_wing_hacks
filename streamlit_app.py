@@ -29,7 +29,7 @@ SAVED_SESSIONS = {
     "'The Storm Before the Calm' and are they in the FooBar database? If so, what albums of theirs "
     "are in the FooBar database?": "alanis.pickle",
 }
-
+# st.title("🦜 LangChain: Chat with search")
 st.set_page_config(
     page_title="Lumos", page_icon="🦜", layout="wide", initial_sidebar_state="collapsed"
 )

@@ -17,11 +17,11 @@ openai_api_key = st.write(
     os.environ["OPENAI_API_KEY"] == st.secrets["OPENAI_API_KEY"],
 )
 
-if "messages" not in st.session_state:
-    st.session_state["messages"] = [{"role": "assistant", "content": "List the products you are interested in:"}]
+# if "messages" not in st.session_state:
+#     st.session_state["messages"] = [{"role": "assistant", "content": "List the products you are interested in:"}]
 
-for msg in st.session_state.messages:
-    st.chat_message(msg["role"]).write(msg["content"])
+# for msg in st.session_state.messages:
+#     st.chat_message(msg["role"]).write(msg["content"])
 
 def search_for_products(product):
     # Multi-line input for user to list products
