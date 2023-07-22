@@ -14,6 +14,8 @@ from langchain.utilities import DuckDuckGoSearchAPIWrapper
 from streamlit_agent.callbacks.capturing_callback_handler import playback_callbacks
 from streamlit_agent.clear_results import with_clear_container
 
+from product_search import search_for_products
+
 import os
 
 DB_PATH = (Path(__file__).parent / "Chinook.db").absolute()
@@ -74,6 +76,11 @@ tools = [
        name="Mermaid",
        func=mermaid.run,
        description="will display the provided mermaid diagram to the user. Input should be a mermaid diagram"
+    ),
+    Tool(
+       name="Product Search",
+       func=search_for_products,
+       description="Will search for products and store options as an excel file"
     )
 ]
 
