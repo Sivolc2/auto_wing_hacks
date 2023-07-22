@@ -29,16 +29,20 @@ st.set_page_config(
 "# 🦜🔗 MRKL"
 
 # Setup credentials in Streamlit
-user_openai_api_key = st.sidebar.text_input(
-    "OpenAI API Key", type="password", help="Set this to run your own custom questions."
-)
+# user_openai_api_key = st.sidebar.text_input(
+#     "OpenAI API Key", type="password", help="Set this to run your own custom questions."
+# )
 
-if user_openai_api_key:
-    openai_api_key = user_openai_api_key
-    enable_custom = True
-else:
-    openai_api_key = "not_supplied"
-    enable_custom = False
+# if user_openai_api_key:
+#     openai_api_key = user_openai_api_key
+#     enable_custom = True
+# else:
+#     openai_api_key = "not_supplied"
+#     enable_custom = False
+openai_api_key = st.write(
+    "OPENAI_API_KEY",
+    os.environ["OPENAI_API_KEY"] == st.secrets["OPENAI_API_KEY"],
+)
 
 # Tools setup
 llm = OpenAI(temperature=0, openai_api_key=openai_api_key, streaming=True)
