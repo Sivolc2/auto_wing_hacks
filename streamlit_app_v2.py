@@ -45,7 +45,6 @@ openai_api_key = st.write(
     "OPENAI_API_KEY",
     os.environ["OPENAI_API_KEY"] == st.secrets["OPENAI_API_KEY"],
 )
-enable_custom = True
 
 # Tools setup
 llm = OpenAI(temperature=0, openai_api_key=openai_api_key, streaming=True)
