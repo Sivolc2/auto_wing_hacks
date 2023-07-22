@@ -6,9 +6,6 @@ import streamlit as st
 
 import os
 
-st.set_page_config(page_title="LangChain: Chat with search", page_icon="🦜")
-st.title("🦜 LangChain: Chat with search")
-
 # openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
 
 # # Check API Key
