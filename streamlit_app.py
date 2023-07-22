@@ -78,11 +78,6 @@ tools = [
        name="Mermaid",
        func=mermaid.run,
        description="will display the provided mermaid diagram to the user. Input should be a mermaid diagram"
-    ),
-    Tool(
-       name="Product Search",
-       func=search_for_products,
-       description="Will search for products and store options as an excel file"
     )
 ]
 
