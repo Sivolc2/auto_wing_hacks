@@ -7,13 +7,28 @@ from langchain.prompts import PromptTemplate
 # Streamlit app
 st.subheader('Summarize URL')
 
-# Get OpenAI API key and URL to be summarized
-with st.sidebar:
-    openai_api_key = st.text_input("OpenAI API key", value="", type="password")
-    st.caption("*If you don't have an OpenAI API key, get it [here](https://platform.openai.com/account/api-keys).*")
-    model = st.selectbox("OpenAI chat model", ("gpt-3.5-turbo", "gpt-3.5-turbo-16k"))
-    st.caption("*If the article is long, choose gpt-3.5-turbo-16k.*")
-url = st.text_input("URL", label_visibility="collapsed")
+## Streamlit envvars
+
+st.write(
+    "OPENAI_API_KEY",
+    os.environ["OPENAI_API_KEY"] == st.secrets["OPENAI_API_KEY"],
+)
+# st.write(
+#     "ELEVENLABS_API_KEY",
+#     os.environ["ELEVENLABS_API_KEY"] == st.secrets["ELEVENLABS_API_KEY"],
+# )
+# st.write(
+#     "ANTHROPIC_API_KEY",
+#     os.environ["ANTHROPIC_API_KEY"] == st.secrets["ANTHROPIC_API_KEY"],
+# )
+
+# # Get OpenAI API key and URL to be summarized
+# with st.sidebar:
+#     openai_api_key = st.text_input("OpenAI API key", value="", type="password")
+#     st.caption("*If you don't have an OpenAI API key, get it [here](https://platform.openai.com/account/api-keys).*")
+#     model = st.selectbox("OpenAI chat model", ("gpt-3.5-turbo", "gpt-3.5-turbo-16k"))
+#     st.caption("*If the article is long, choose gpt-3.5-turbo-16k.*")
+# url = st.text_input("URL", label_visibility="collapsed")
 
 # If 'Summarize' button is clicked
 if st.button("Summarize"):
