@@ -1,6 +1,9 @@
 import mermaid
 from pathlib import Path
 
+
+# New imports
+import openpyxl
 import streamlit as st
 
 from langchain import SQLDatabase
@@ -86,11 +89,9 @@ tools = [
 # Initialize agent
 mrkl = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
 
-# New imports
-import openpyxl
 
 # Existing imports and setup
-tabs = st.tabs(["QA", "Product Search"]) 
+tabs = st.tabs(["QA", "Product Search"])
 
 with tabs[0]:
     with st.form(key="form"):
