@@ -1,62 +1,45 @@
-# streamlit_app.py
-import os
+import validators, streamlit as st
+from langchain.chat_models import ChatOpenAI
+from langchain.document_loaders import UnstructuredURLLoader
+from langchain.chains.summarize import load_summarize_chain
+from langchain.prompts import PromptTemplate
 
-import streamlit as st
-from llm_functions import *
-from app_functions import *
-from st_custom_components import st_audiorec, convert_wav_to_mp3
-import whisper
+# Streamlit app
+st.subheader('Summarize URL')
 
-from llm_functions import *
-from st_custom_components import convert_wav_to_mp3, st_audiorec
+# Get OpenAI API key and URL to be summarized
+with st.sidebar:
+    openai_api_key = st.text_input("OpenAI API key", value="", type="password")
+    st.caption("*If you don't have an OpenAI API key, get it [here](https://platform.openai.com/account/api-keys).*")
+    model = st.selectbox("OpenAI chat model", ("gpt-3.5-turbo", "gpt-3.5-turbo-16k"))
+    st.caption("*If the article is long, choose gpt-3.5-turbo-16k.*")
+url = st.text_input("URL", label_visibility="collapsed")
 
-# Execute packages.sh on startup
+# If 'Summarize' button is clicked
+if st.button("Summarize"):
+    # Validate inputs
+    if not openai_api_key.strip() or not url.strip():
+        st.error("Please provide the missing fields.")
+    elif not validators.url(url):
+        st.error("Please enter a valid URL.")
+    else:
+        try:
+            with st.spinner("Please wait..."):
+                # Load URL data
+                loader = UnstructuredURLLoader(urls=[url])
+                data = loader.load()
+                
+                # Initialize the ChatOpenAI module, load and run the summarize chain
+                llm = ChatOpenAI(temperature=0, model=model, openai_api_key=openai_api_key)
+                prompt_template = """Write a summary of the following in 250-300 words:
+                    
+                    {text}
 
-## Streamlit envvars
-st.write(
-    "ANTHROPIC_API_KEY",
-    os.environ["ANTHROPIC_API_KEY"] == st.secrets["ANTHROPIC_API_KEY"],
-)
-st.write(
-    "OPENAI_API_KEY",
-    os.environ["OPENAI_API_KEY"] == st.secrets["OPENAI_API_KEY"],
-)
-st.write(
-    "ELEVENLABS_API_KEY",
-    os.environ["ELEVENLABS_API_KEY"] == st.secrets["ELEVENLABS_API_KEY"],
-)
+                """
+                prompt = PromptTemplate(template=prompt_template, input_variables=["text"])
+                chain = load_summarize_chain(llm, chain_type="stuff", prompt=prompt)
+                summary = chain.run(data)
 
-WHISPER_DEFAULT_SETTINGS = {
-    "whisper_model": "base",
-    "temperature": 0.0,
-    "temperature_increment_on_fallback": 0.2,
-    "no_speech_threshold": 0.6,
-    "logprob_threshold": -1.0,
-    "compression_ratio_threshold": 2.4,
-    "condition_on_previous_text": True,
-    "verbose": False,
-    "task": "transcribe",
-}
-
-## Utils
-def main():
-    # Set a title
-    st.title("My LangChain App")
-
-    # Select between the translation, chat, and audio recording pages
-    page = st.sidebar.selectbox(
-        "Choose a page:", ["Translation", "Chat", "Audio Recording", "repl agent"]
-    )
-
-    if page == "Translation":
-        translation_page()
-    elif page == "Chat":
-        chat_page()
-    elif page == "Audio Recording":
-        audio_recording_page()
-    elif page == "repl agent":
-        repl_agent_page()
-
-
-if __name__ == "__main__":
-    main()
+                st.success(summary)
+        except Exception as e:
+            st.exception(f"Exception: {e}")
