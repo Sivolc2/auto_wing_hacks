@@ -1,3 +1,4 @@
+import mermaid
 from pathlib import Path
 
 import streamlit as st
@@ -69,6 +70,11 @@ tools = [
         func=db_chain.run,
         description="useful for when you need to answer questions about FooBar. Input should be in the form of a question containing full context",
     ),
+    Tool(
+       name="Mermaid",
+       func=mermaid.run,
+       description="will display the provided mermaid diagram to the user. Input should be a mermaid diagram"
+    )
 ]
 
 # Initialize agent
