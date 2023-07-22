@@ -1,6 +1,9 @@
 import openpyxl
 from langchain.utilities import GoogleSerperAPIWrapper
 
+import os
+
+
 def search_product_to_excel(product, file_name):
     
     # Initialize API wrapper
