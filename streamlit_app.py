@@ -19,7 +19,8 @@ import os
 DB_PATH = (Path(__file__).parent / "Chinook.db").absolute()
 
 SAVED_SESSIONS = {
-    "How much for a cup of Coffee in the united states?"
+    "How much for a cup of Coffee in the united states?",
+    "How much for a cup of milk in the US?"
 }
 
 st.set_page_config(
