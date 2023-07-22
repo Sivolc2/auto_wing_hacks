@@ -4,6 +4,8 @@ from langchain.document_loaders import UnstructuredURLLoader
 from langchain.chains.summarize import load_summarize_chain
 from langchain.prompts import PromptTemplate
 
+import os 
+
 # Streamlit app
 st.subheader('Summarize URL')
 
