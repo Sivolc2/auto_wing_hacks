@@ -1,0 +1,1 @@
+alias gpush="git add *.py; git commit ; git push"

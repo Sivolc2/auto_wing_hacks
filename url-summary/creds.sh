@@ -1,0 +1,3 @@
+export ANTHROPIC_API_KEY = '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'
+export OPENAI_API_KEY = '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'
+export ELEVENLABS_API_KEY = 'e21ea39d4e1d2f325ee6c8bc42aff4bc'

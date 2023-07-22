@@ -1,14 +1,40 @@
-# langchain-url-summary
-A sample Streamlit application to summarize URL content using LangChain and OpenAI.
+# 🦜️🔗 LangChain 🤝 Streamlit agent examples
 
-[LangChain](https://langchain.readthedocs.io/en/latest) is an open-source framework created to aid the development of applications leveraging the power of large language models (LLMs). It can be used for chatbots, text summarisation, data generation, code understanding, question answering, evaluation, and more. This project uses the `UnstructuredURLLoader` class to load URL data, and the `load_summarize_chain` chain to generate a summary. Instead of the default model, it uses the `gpt-3.5-turbo` chat model for better results and cost-effectiveness. 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/langchain-ai/streamlit-agent?quickstart=1)
 
-<img src="./../images/langchain-url.png" alt="langchain-url"/>
+This repository contains reference implementations of various LangChain agents as Streamlit apps including:
 
-Here's a sample OpenAI-generated URL content summary. If you don't have an OpenAI API key, get it [here](https://platform.openai.com/account/api-keys).
+- `basic_streaming.py`: Simple streaming app with `langchain.chat_models.ChatOpenAI` ([View the app](https://langchain-streaming-example.streamlit.app/))
+- `mrkl_demo.py`: An agent that replicates the [MRKL demo](https://python.langchain.com/docs/modules/agents/how_to/mrkl) ([View the app](https://langchain-mrkl.streamlit.app))
+- `minimal_agent.py`: A minimal agent with search (requires setting `OPENAI_API_KEY` env to run)
+- `search_and_chat.py`: A search-enabled chatbot that remembers chat history ([View the app](https://langchain-chat-search.streamlit.app/))
+- `chat_with_documents.py`: Chatbot capable of answering queries by referring custom documents ([View the app](https://langchain-document-chat.streamlit.app/))
+- `chat_with_sql_db.py`: Chatbot which can communicate with your database ([View the app](https://langchain-chat-sql.streamlit.app/))
+- `chat_pandas_df.py`: Chatbot to ask questions about a pandas DF ([View the app](https://langchain-chat-pandas.streamlit.app/))
 
-<img src="./../images/langchain-url-summary.png" alt="langchain-url-summary"/>
+Apps feature LangChain 🤝 Streamlit integrations such as the
+[Callback integration](https://python.langchain.com/docs/modules/callbacks/integrations/streamlit).
 
-For a detailed guide, see [this](https://alphasec.io/blinkist-for-urls-with-langchain-and-openai) post. To deploy on [Railway](https://railway.app/?referralCode=alphasec) using a one-click template, click the button below.
+## Setup
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/oE8sWo?referralCode=alphasec)
+This project uses [Poetry](https://python-poetry.org/) for dependency management.
+
+```shell
+# Create Python environment
+$ poetry install
+
+# Install git pre-commit hooks
+$ poetry shell
+$ pre-commit install
+```
+
+## Running
+
+```shell
+# Run mrkl_demo.py or another app the same way
+$ streamlit run streamlit_agent/mrkl_demo.py
+```
+
+## Contributing
+
+We plan to add more agent and chain examples over time and improve the existing ones - PRs welcome! 🚀
