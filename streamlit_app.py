@@ -28,7 +28,7 @@ SAVED_SESSIONS = {
 }
 
 st.set_page_config(
-    page_title="MRKL", page_icon="🦜", layout="wide", initial_sidebar_state="collapsed"
+    page_title="Lumos", page_icon="🦜", layout="wide", initial_sidebar_state="collapsed"
 )
 
 "# 🦜🔗 MRKL"
@@ -45,7 +45,6 @@ st.set_page_config(
 #     openai_api_key = "not_supplied"
 #     enable_custom = False
 openai_api_key = st.write(
-    "OPENAI_API_KEY",
     os.environ["OPENAI_API_KEY"] == st.secrets["OPENAI_API_KEY"],
 )
 enable_custom = True
@@ -87,34 +86,74 @@ tools = [
 # Initialize agent
 mrkl = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
 
-with st.form(key="form"):
-    if not enable_custom:
-        "Ask one of the sample questions, or enter your API Key in the sidebar to ask your own custom questions."
-    prefilled = st.selectbox("Sample questions", sorted(SAVED_SESSIONS.keys())) or ""
-    user_input = ""
+# New imports
+import openpyxl
 
-    if enable_custom:
-        user_input = st.text_input("Or, ask your own question")
-    if not user_input:
-        user_input = prefilled
-    submit_clicked = st.form_submit_button("Submit Question")
+# Existing imports and setup
+tabs = st.tabs(["QA", "Product Search"]) 
 
-output_container = st.empty()
-if with_clear_container(submit_clicked):
-    output_container = output_container.container()
-    output_container.chat_message("user").write(user_input)
+with tabs[0]:
+    with st.form(key="form"):
+        if not enable_custom:
+            "Ask one of the sample questions, or enter your API Key in the sidebar to ask your own custom questions."
+        prefilled = st.selectbox("Sample questions", sorted(SAVED_SESSIONS.keys())) or ""
+        user_input = ""
 
-    answer_container = output_container.chat_message("assistant", avatar="🦜")
-    st_callback = StreamlitCallbackHandler(answer_container)
+        if enable_custom:
+            user_input = st.text_input("Or, ask your own question")
+        if not user_input:
+            user_input = prefilled
+        submit_clicked = st.form_submit_button("Submit Question")
 
-    # If we've saved this question, play it back instead of actually running LangChain
-    # (so that we don't exhaust our API calls unnecessarily)
-    if user_input in SAVED_SESSIONS:
-        session_name = SAVED_SESSIONS[user_input]
-        session_path = Path(__file__).parent / "runs" / session_name
-        print(f"Playing saved session: {session_path}")
-        answer = playback_callbacks([st_callback], str(session_path), max_pause_time=2)
-    else:
-        answer = mrkl.run(user_input, callbacks=[st_callback])
+# QA tab code
+with tabs[1]:
 
-    answer_container.write(answer)
+    products = st.text_input("Enter comma-separated list of products")
+    
+    if products:
+
+        products = [p.strip() for p in products.split(",")]
+
+        for product in products:
+
+            st.header(product)
+
+            file_name = f"{product.replace(' ','_')}.xlsx"
+
+            mrkl.run(product, tool="Product Search")
+
+            if Path(file_name).exists():
+
+                df = openpyxl.load_workbook(file_name).active
+
+                st.dataframe(df)
+
+                st.download_button(
+
+                    label="📥 Download Results",
+
+                    data=df.excel.bytes,
+
+                    file_name=file_name
+
+                )
+
+# output_container = st.empty()
+# if with_clear_container(submit_clicked):
+#     output_container = output_container.container()
+#     output_container.chat_message("user").write(user_input)
+
+#     answer_container = output_container.chat_message("assistant", avatar="🦜")
+#     st_callback = StreamlitCallbackHandler(answer_container)
+
+#     # If we've saved this question, play it back instead of actually running LangChain
+#     # (so that we don't exhaust our API calls unnecessarily)
+#     if user_input in SAVED_SESSIONS:
+#         session_name = SAVED_SESSIONS[user_input]
+#         session_path = Path(__file__).parent / "runs" / session_name
+#         print(f"Playing saved session: {session_path}")
+#         answer = playback_callbacks([st_callback], str(session_path), max_pause_time=2)
+#     else:
+#         answer = mrkl.run(user_input, callbacks=[st_callback])
+
+#     answer_container.write(answer)
