@@ -19,8 +19,10 @@ import os
 DB_PATH = (Path(__file__).parent / "Chinook.db").absolute()
 
 SAVED_SESSIONS = {
-    "How much for a cup of Coffee in the united states?",
-    "How much for a cup of milk in the US?"
+    "Who is Leo DiCaprio's girlfriend? What is her current age raised to the 0.43 power?": "leo.pickle",
+    "What is the full name of the artist who recently released an album called "
+    "'The Storm Before the Calm' and are they in the FooBar database? If so, what albums of theirs "
+    "are in the FooBar database?": "alanis.pickle",
 }
 
 st.set_page_config(
