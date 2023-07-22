@@ -30,7 +30,7 @@ st.write(
 #     st.caption("*If you don't have an OpenAI API key, get it [here](https://platform.openai.com/account/api-keys).*")
 #     model = st.selectbox("OpenAI chat model", ("gpt-3.5-turbo", "gpt-3.5-turbo-16k"))
 #     st.caption("*If the article is long, choose gpt-3.5-turbo-16k.*")
-# url = st.text_input("URL", label_visibility="collapsed")
+url = st.text_input("URL", label_visibility="collapsed")
 
 # If 'Summarize' button is clicked
 if st.button("Summarize"):
