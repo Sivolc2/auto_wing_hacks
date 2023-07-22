@@ -34,7 +34,7 @@ st.set_page_config(
     page_title="Lumos", page_icon="🦜", layout="wide", initial_sidebar_state="collapsed"
 )
 
-"# 🦜🔗 MRKL"
+"# 🦜🔗 Lumos"
 
 # Setup credentials in Streamlit
 # user_openai_api_key = st.sidebar.text_input(
