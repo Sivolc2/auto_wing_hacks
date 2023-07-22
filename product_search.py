@@ -52,4 +52,3 @@ def search_for_products(product):
             st.session_state.messages.append({"role": "assistant", "content": response})
             st.write(response)
 
-search_for_products()
