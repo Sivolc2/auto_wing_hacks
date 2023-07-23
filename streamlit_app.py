@@ -17,6 +17,7 @@ from langchain.agents import load_tools
 from streamlit_agent.callbacks.capturing_callback_handler import playback_callbacks
 from streamlit_agent.clear_results import with_clear_container
 from langchain.utilities import GoogleSerperAPIWrapper
+from langchain.memory import ConversationBufferMemory
 
 from product_search import search_for_products
 
@@ -66,6 +67,8 @@ llm_math_chain = LLMMathChain.from_llm(llm)
 db = SQLDatabase.from_uri(f"sqlite:///{DB_PATH}")
 db_chain = SQLDatabaseChain.from_llm(llm, db)
 search_google = GoogleSerperAPIWrapper()
+memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+
 tools = [
     # Tool(
     #    name="Mermaid",
@@ -92,7 +95,7 @@ tools = [
 # search = initialize_agent(tools, llm, tool_order_prompt, verbose=True)
 mrkl = initialize_agent(tools, llm, 
                         agent_path="./search_agent.json", 
-                        verbose=True)
+                        verbose=True, memory=memory)
 
 json_agent = initialize_agent(tools, llm, 
                         agent_path="./json_agent.json", 
