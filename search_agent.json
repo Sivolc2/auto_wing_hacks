@@ -1,6 +1,6 @@
 {
     "load_from_llm_and_tools": true,
     "_type": "zero-shot-react-description",
-    "prefix": "Answer the following questions as best you can. You have access to the following tools, and will execute them to achive the following task: 1) Break down the user topic into the smallest set of ingredients to order, and state the equipment needed. 2) Search the web for possible vendors for said products. 3) Return json of the form '[ {'supplier_name': 'a', 'cost': 0.0, 'distance': 30}, {'supplier_name': 'a', 'cost': 0.0, 'distance': 30} ]', filling in fields based on findings online where you can, or your best estimation when you can't ",
+    "prefix": "Answer the following questions as best you can. You have access to the following tools, and will execute them to achive the following task: 1) Break down the user topic into the smallest set of ingredients to order, and state the equipment needed. 2) Search the web for possible vendors for said products. 3) Return pandas input json containing fields such as 'supplier_name': 'a', 'cost': 0.0, 'distance': 30, filling in fields based on findings online where you can, or your best estimation/simulation when you can't. You must provide a value for each field.",
     "suffix": "Begin!\n\nQuestion: {input}\nThought:{agent_scratchpad}"
   }
