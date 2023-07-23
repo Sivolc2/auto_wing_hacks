@@ -146,6 +146,6 @@ if with_clear_container(submit_clicked):
 
     # If we've saved this question, play it back instead of actually running LangChain
     # (so that we don't exhaust our API calls unnecessarily)
-    answer = run_with_prompt(user_input, tools, mrkl, tool_order_prompt)
+    answer = run_with_prompt(user_input, tools, mrkl, tool_order_prompt)[0:len(tool_order_prompt)]
 
     answer_container.write(answer)
