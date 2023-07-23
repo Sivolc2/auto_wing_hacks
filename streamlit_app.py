@@ -36,23 +36,10 @@ st.set_page_config(
     page_title="Lumos", page_icon="🦜", layout="wide", initial_sidebar_state="collapsed"
 )
 
-"# 🦜🔗 Lumos: Revolutionalize Your Business"
-
-# Setup credentials in Streamlit
-# user_openai_api_key = st.sidebar.text_input(
-#     "OpenAI API Key", type="password", help="Set this to run your own custom questions."
-# )
-
-# if user_openai_api_key:
-#     openai_api_key = user_openai_api_key
-#     enable_custom = True
-# else:
-#     openai_api_key = "not_supplied"
-#     enable_custom = False
+"# 🦜🔗 Lumos: Revolutionize Your Business"
 openai_api_key = st.write(
     os.environ["OPENAI_API_KEY"] == st.secrets["OPENAI_API_KEY"],
 )
-enable_custom = True
 
 # Tools setup
 llm = OpenAI(temperature=0, openai_api_key=openai_api_key, streaming=True)
@@ -83,7 +70,7 @@ tools = [
        description="will display the provided mermaid diagram to the user. Input should be a mermaid diagram"
     ),
     Tool(
-        name="Search Google",
+        name="SearchG",
         func=search_google.run,
         description="useful for when you need to ask with search"
     )
@@ -91,58 +78,20 @@ tools = [
 
 # Initialize agent
 mrkl = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
-searcher = initialize_agent(tools, llm, agent=AgentType.SELF_ASK_WITH_SEARCH, verbose=True)
 
 # Existing imports and setup
 tabs = st.tabs(["QA", "Product Search"])
 
 with tabs[0]:
     with st.form(key="form"):
-        if not enable_custom:
-            "Ask one of the sample questions, or enter your API Key in the sidebar to ask your own custom questions."
-        # prefilled = st.selectbox("Sample questions", sorted(SAVED_SESSIONS.keys())) or ""
-        user_input = ""
-
-        if enable_custom:
-            user_input = st.text_input("Or, ask your own question")
+        user_input = st.text_input("What type of business do you run?")
         # if not user_input:
         #     user_input = prefilled
-        submit_clicked = st.form_submit_button("Submit Question")
+        submit_clicked = st.form_submit_button("Submit Inquiry")
+        ## Add langchain preprompt?
 
-# QA tab code
-# with tabs[1]:
 
-#     products = st.text_input("Enter comma-separated list of products")
-    
-#     if products:
-
-#         products = [p.strip() for p in products.split(",")]
-
-#         for product in products:
-
-#             st.header(product)
-
-#             file_name = f"{product.replace(' ','_')}.xlsx"
-
-#             mrkl.run(product, tool="Search Google")
-#             # search_for_products(product)
-
-#             if Path(file_name).exists():
-
-#                 df = openpyxl.load_workbook(file_name).active
-
-#                 st.dataframe(df)
-
-#                 st.download_button(
-
-#                     label="📥 Download Results",
-
-#                     data=df.excel.bytes,
-
-#                     file_name=file_name
-
-#                 )
-with tabs[1]:   
+with tabs[1]:
     products = st.text_input("Enter comma-separated list of products")
     
     if products:
@@ -155,7 +104,7 @@ with tabs[1]:
             # result = mrkl.run(product, tool="Search Google")
 
             # result = mrkl.run(tool="Search Google")
-            result = searcher.run(f"What are some options to buy {product}?")
+            result = mrkl.run(f"What are some options to buy {product}?", "SearchG")
             # Assume result is a list of dictionaries for this example
             df = pd.DataFrame(result)
 
@@ -177,6 +126,8 @@ with tabs[1]:
                 file_name=file_name,
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
+
+
 
 
 # output_container = st.empty()
