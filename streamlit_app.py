@@ -240,11 +240,10 @@ if with_clear_container(submit_clicked):
     # If we've saved this question, play it back instead of actually running LangChain
     # (so that we don't exhaust our API calls unnecessarily)
     answer = mrkl.run(user_input, callbacks=[answer, st_callback])
-
-    answer_container.write(answer)
     st.write(
-    os.environ["answer"] == answer,
+        os.environ["answer"] == answer,
         )
+    answer_container.write(answer)
 
 
 jr = json_agent(os.environ["answer"])
