@@ -91,9 +91,9 @@ tools = [
         description="Search and summarize prices for a set of vendors"
     ),
     Tool(
-        name="Search Averages",
+        name="Compute Prices",
         func=search_google.run,
-        description="Find average cost for a specific product from vendor"
+        description="Find and estimate average cost of a good for product"
     ),
 ]
 
