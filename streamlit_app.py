@@ -90,6 +90,7 @@ tools = [
 
 # Initialize agent
 mrkl = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
+searcher = initialize_agent(tools, llm, agent=AgentType.SELF_ASK_WITH_SEARCH, verbose=True)
 
 # Existing imports and setup
 tabs = st.tabs(["QA", "Product Search"])
@@ -152,9 +153,8 @@ with tabs[1]:
             # Get the result from the agent
             # result = mrkl.run(product, tool="Search Google")
 
-            result = mrkl.run(
-                f"What are some options to buy {product}", tool="Search Google"
-            )
+            result = mrkl.run(tool="Search Google")
+            result = searcher.run(f"What are some options to buy {product}?")
             # Assume result is a list of dictionaries for this example
             df = pd.DataFrame(result)
 
