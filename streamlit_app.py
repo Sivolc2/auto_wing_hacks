@@ -124,7 +124,7 @@ with tabs[0]:
 
 #justin code drop
 with tabs[1]:
-    df = pd.ad_csv('coffeeshop.csv')
+    df = pd.read_csv('coffeeshop.csv')
 
     st.dataframe(
         df,

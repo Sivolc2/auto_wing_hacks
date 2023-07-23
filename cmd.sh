@@ -1,1 +1,1 @@
-alias gpush="git pull; git add *.py; git commit -m 'test'; git push"
+alias gpush="git pull; git add *.py *.json; git commit -m 'test'; git push"
