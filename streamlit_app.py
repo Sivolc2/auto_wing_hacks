@@ -62,7 +62,31 @@ tools = [
     Tool(
         name="FooBar DB",
         func=db_chain.run,
-        description="useful for when you need to answer questions about FooBar. Input should be in the form of a question containing full context",
+        description="useful for whenrkl = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True) 
+
+tool_order_prompt = """
+The tools should be used in this order for answering questions:
+1. SearchG - Use this to search the internet for general information
+2. Calculator - Use this for any math calculations 
+3. FooBar DB - Use this to look up information in the FooBar database
+4. Mermaid - Use this to generate mermaid diagrams
+You should follow this order whenever possible when answering the user's questions.
+"""
+
+# New function to run agent with custom prompt
+def run_with_prompt(input, tools, llm, prompt):
+    llm.add_prompt(prompt)
+    result = llm.run(input, tools=tools)
+    llm.clear_prompt()
+    return result
+
+with tabs[0]:
+
+   # Existing code
+
+   answer = run_with_prompt(user_input, tools, llm, tool_order_prompt)
+
+   # Existing code you need to answer questions about FooBar. Input should be in the form of a question containing full context",
     ),
     Tool(
        name="Mermaid",
@@ -79,6 +103,19 @@ tools = [
 # Initialize agent
 mrkl = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
 
+tool_order_prompt = """
+The tools should be used in this order for answering questions:
+1. Use your knowledge to create a list of what products go into the user-specified item (ie 'coffee' breaks down into 'coffee beans', 'milk', and 'sugar')
+2. SearchG - Use this to search the internet for potential products
+You should follow this order whenever possible when answering the user's questions.
+"""
+
+def run_with_prompt(input, tools, llm, prompt):
+    llm.add_prompt(prompt)
+    result = llm.run(input, tools=tools)
+    llm.clear_prompt()
+    return result
+
 # Existing imports and setup
 tabs = st.tabs(["QA", "Product Search"])
 
@@ -89,7 +126,7 @@ with tabs[0]:
         #     user_input = prefilled
         submit_clicked = st.form_submit_button("Submit Inquiry")
         ## Add langchain preprompt?
-
+    
 
 with tabs[1]:
     products = st.text_input("Enter comma-separated list of products")
@@ -137,6 +174,9 @@ if with_clear_container(submit_clicked):
 
     # If we've saved this question, play it back instead of actually running LangChain
     # (so that we don't exhaust our API calls unnecessarily)
-    answer = mrkl.run(user_input, callbacks=[st_callback])
+    # answer = mrkl.run(user_input, callbacks=[st_callback])
+    answer = run_with_prompt(user_input, tools, mrkl, tool_order_prompt)
+
+    ## Run
 
     answer_container.write(answer)
