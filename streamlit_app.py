@@ -26,12 +26,6 @@ import os
 DB_PATH = (Path(__file__).parent / "Chinook.db").absolute()
 
 
-# New function to run agent with custom prompt
-def run_with_prompt(input, tools, llm, prompt):
-    prompt + " " + input
-    result = llm.run(input, tools=tools)
-    return result
-
 SAVED_SESSIONS = {
     "Who is Leo DiCaprio's girlfriend? What is her current age raised to the 0.43 power?": "leo.pickle",
     "What is the full name of the artist who recently released an album called "
@@ -146,6 +140,6 @@ if with_clear_container(submit_clicked):
 
     # If we've saved this question, play it back instead of actually running LangChain
     # (so that we don't exhaust our API calls unnecessarily)
-    answer = run_with_prompt(user_input, tools, mrkl, tool_order_prompt)[0:len(tool_order_prompt)]
+    answer = mrkl.run(tool_order_prompt + " " + user_input, callbacks=[st_callback])[0:len(tool_order_prompt)]
 
     answer_container.write(answer)
