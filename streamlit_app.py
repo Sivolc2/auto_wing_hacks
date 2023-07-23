@@ -21,6 +21,11 @@ from langchain.utilities import GoogleSerperAPIWrapper
 from product_search import search_for_products
 
 import pandas as pd
+import numpy as np
+import pydeck as pdk
+from mapbox import Geocoder, Directions
+from datetime import datetime, timedelta
+import geopy.distance
 import os
 
 DB_PATH = (Path(__file__).parent / "Chinook.db").absolute()
@@ -32,6 +37,19 @@ SAVED_SESSIONS = {
     "'The Storm Before the Calm' and are they in the FooBar database? If so, what albums of theirs "
     "are in the FooBar database?": "alanis.pickle",
 }
+
+def calculate_eta(start_location, end_location, shipping_method):
+    shipping_time = shipping_times.get(shipping_method)
+    if shipping_time is None:
+        raise ValueError(f"Unknown shipping method: {shipping_method}")
+
+    response = directions.directions([start_location[::-1], end_location[::-1]], 'mapbox/driving')
+    travel_time = response.json()['routes'][0]['duration']  # in seconds
+    order_time = datetime.now()
+    eta = order_time + shipping_time + timedelta(seconds=travel_time)
+
+    return eta.strftime('%Y-%m-%d %H:%M:%S')
+
 # st.title("🦜 LangChain: Chat with search")
 st.set_page_config(
     page_title="Lumos", page_icon="🦜", layout="wide", initial_sidebar_state="collapsed"
@@ -213,17 +231,6 @@ with tabs[2]:
 
             map_tab.pydeck_chart(r)
 
-    def calculate_eta(start_location, end_location, shipping_method):
-        shipping_time = shipping_times.get(shipping_method)
-        if shipping_time is None:
-            raise ValueError(f"Unknown shipping method: {shipping_method}")
-
-        response = directions.directions([start_location[::-1], end_location[::-1]], 'mapbox/driving')
-        travel_time = response.json()['routes'][0]['duration']  # in seconds
-        order_time = datetime.now()
-        eta = order_time + shipping_time + timedelta(seconds=travel_time)
-
-        return eta.strftime('%Y-%m-%d %H:%M:%S')
 
 output_container = st.empty()
 if with_clear_container(submit_clicked):
