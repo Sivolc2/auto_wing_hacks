@@ -241,7 +241,7 @@ if with_clear_container(submit_clicked):
     # (so that we don't exhaust our API calls unnecessarily)
     answer = mrkl.run(user_input, callbacks=[answer, st_callback])
     
-    os.environ["answer"] == answer
+    os.environ["answer"] = answer
     answer_container.write(answer)
 
 
