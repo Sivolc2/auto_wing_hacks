@@ -93,9 +93,10 @@ tools = [
 # """
 
 # search = initialize_agent(tools, llm, tool_order_prompt, verbose=True)
-mrkl = initialize_agent(tools, llm, 
-                        agent_path="./search_agent.json", 
-                        verbose=True, memory=memory)
+# mrkl = initialize_agent(tools, llm, 
+#                         agent_path="./search_agent.json", 
+#                         verbose=True, memory=memory)
+mrkl = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True)
 
 json_agent = initialize_agent(tools, llm, 
                         agent_path="./json_agent.json", 
