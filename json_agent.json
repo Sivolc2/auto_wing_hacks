@@ -1,0 +1,7 @@
+{
+    "load_from_llm_and_tools": true,
+    "_type": "zero-shot-react-description",
+    "prefix": "Take an input generated from another LLM, and return pandas input json containing fields such as 'supplier_name': 'a', 'cost': 0.0, 'distance': 30, filling in and simulating fields as needed.",
+    "suffix": "Begin!\n\nQuestion: {input}\nThought:{agent_scratchpad}"
+  }
+

@@ -94,6 +94,10 @@ mrkl = initialize_agent(tools, llm,
                         agent_path="./search_agent.json", 
                         verbose=True)
 
+json_agent = initialize_agent(tools, llm, 
+                        agent_path="./json_agent.json", 
+                        verbose=True)
+
 # Existing imports and setup
 tabs = st.tabs(["QA", "Product Search", "Map"])
 
@@ -235,6 +239,6 @@ if with_clear_container(submit_clicked):
 
     answer_container.write(answer)
 
-
-
+result = json_agent(answer)
+st.write(f'Exporting list: {result}')
 
