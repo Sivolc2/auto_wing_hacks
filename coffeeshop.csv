@@ -1,0 +1,26 @@
+product_name,supplier_name,address,price,quality,environmental_score,ETA
+Commercial Espresso Machine,Espresso Parts,"4315 Lacey Blvd. SE Lacey, WA 98503",$5000-$8000,Medium,2,750
+Commercial Espresso Machine,Espresso Zone,"6911 Washington Ave, Philadelphia, PA 19142",$2000-$15000,High,1,2900
+Commercial Espresso Machine,Seattle Coffee Gear,"6911 216th St SW Suite A, Lynnwood, WA 98036",$1000-$12000,Low,2,800
+Commercial Espresso Machine,Espresso Services,"1825 N 2nd St, Minneapolis, MN 55411",$3000-$17000,Medium,1,2000
+Commercial Espresso Machine,Chris' Coffee,"10 Corporate Cir, Albany, NY 12203",$2500-$20000,High,1,2900
+Kenya AA Coffee Beans,Allegro Coffee,"12799 Claude Ct, Thornton, CO 80241",$15-$30 per pound,Medium,2,1250
+Kenya AA Coffee Beans,Coffee Bean Corral,"12120 Westheimer Rd #210, Houston, TX 77077",$15-$30 per pound,High,2,1900
+Kenya AA Coffee Beans,Bodhi Leaf Coffee Traders,"428 W Katella Ave, Orange, CA 92867",$15-$30 per pound,Low,4,380
+Kenya AA Coffee Beans,Coffee Project NY,"239 Java St, Brooklyn, NY 11222",$15-$30 per pound,Medium,1,2900
+Kenya AA Coffee Beans,Dean's Beans Organic Coffee Company,"50 R.W. Moore Ave, Orange, MA 01364",$15-$30 per pound,High,1,3100
+Bamboo Straws,Eco-Products,"4755 Walnut St, Boulder, CO 80301",$0.20-$1.00 per straw,Medium,2,1250
+Bamboo Straws,Green Paper Products,"5885 Grant Ave, Cleveland, OH 44105",$0.20-$1.00 per straw,High,1,2400
+Bamboo Straws,EcoUtensil,"151 Callan Ave, San Leandro, CA 94577",$0.20-$1.00 per straw,Low,4,25
+Bamboo Straws,Eco-gecko Products,"4136 Del Rey Ave, Marina Del Rey, CA 90292",$0.20-$1.00 per straw,Medium,5,380
+Bamboo Straws,Compostable Green,"1717 S Decatur Blvd, Las Vegas, NV 89102",$0.20-$1.00 per straw,High,2,570
+Bamboo Coffee Cups,Custom Earth Promos,"3350 NW Boca Raton Blvd, Boca Raton, FL 33431",$10-$30 per cup,Medium,2,3000
+Bamboo Coffee Cups,Eco Vessel,"Boulder, CO 80301",$10-$30 per cup,High,2,1250
+Bamboo Coffee Cups,Ecoproductsstore,"PO Box 1763, Boulder, CO 80306",$10-$30 per cup,Low,2,1250
+Bamboo Coffee Cups,Eco-Products,"4755 Walnut St, Boulder, CO 80301",$10-$30 per cup,Medium,2,1250
+Bamboo Coffee Cups,Green Paper Products,"5885 Grant Ave, Cleveland, OH 44105",$10-$30 per cup,High,1,2400
+Bamboo Coffee Cup Cover,PrintGlobe,"3500 Comsouth Dr Suite 100, Austin, TX 78744",$10-$30 per cup,Medium,2,1700
+Bamboo Coffee Cup Cover,Custom Earth Promos,"3350 NW Boca Raton Blvd, Boca Raton, FL 33431",$10-$30 per cup,High,2,3000
+Bamboo Coffee Cup Cover,Eco-Products,"4755 Walnut St, Boulder, CO 80301",$10-$30 per cup,Low,2,1250
+Bamboo Coffee Cup Cover,Ecoproductsstore,"PO Box 1763, Boulder, CO 80306",$10-$30 per cup,Medium,2,1250
+Bamboo Coffee Cup Cover,Green Paper Products,"5885 Grant Ave, Cleveland, OH 44105",$10-$30 per cup,High,1,2400
