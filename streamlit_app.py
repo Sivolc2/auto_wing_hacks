@@ -67,26 +67,17 @@ db = SQLDatabase.from_uri(f"sqlite:///{DB_PATH}")
 db_chain = SQLDatabaseChain.from_llm(llm, db)
 search_google = GoogleSerperAPIWrapper()
 tools = [
-    Tool(
-        name="Calculator",
-        func=llm_math_chain.run,
-        description="useful for when you need to answer questions about math",
-    ),
-    Tool(
-        name="FooBar DB",
-        func=db_chain.run,
-        description="useful for when you need to answer questions about FooBar. Input should be in the form of a question containing full context",
-    ),
-    Tool(
-       name="Mermaid",
-       func=mermaid.run,
-       description="will display the provided mermaid diagram to the user. Input should be a mermaid diagram"
-    ),
+    # Tool(
+    #    name="Mermaid",
+    #    func=mermaid.run,
+    #    description="will display the provided mermaid diagram to the user. Input should be a mermaid diagram"
+    # ),
     Tool(
         name="SearchG",
         func=search_google.run,
         description="useful for when you need to ask with search"
-    )
+    ),
+
 ]
 
 # tool_order_prompt = """
@@ -102,7 +93,6 @@ tools = [
 mrkl = initialize_agent(tools, llm, 
                         agent_path="./search_agent.json", 
                         verbose=True)
-
 
 # Existing imports and setup
 tabs = st.tabs(["QA", "Product Search", "Map"])
@@ -155,7 +145,6 @@ with tabs[1]:
 # with tabs[2]:
 
 #     # Streamlit configurations
-#     # st.set_page_config(page_title="Supplier Locations")
 
 #     # Environment setup
 #     os.environ["MAPBOX_API_KEY"] = "YOUR_MAPBOX_ACCESS_TOKEN"

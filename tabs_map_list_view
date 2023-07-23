@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 import geopy.distance
 
 # Streamlit configurations
-st.set_page_config(page_title="Supplier Locations")
+# st.set_page_config(page_title="Supplier Locations")
 
 # Environment setup
 os.environ["MAPBOX_API_KEY"] = "YOUR_MAPBOX_ACCESS_TOKEN"
