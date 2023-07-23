@@ -28,9 +28,8 @@ DB_PATH = (Path(__file__).parent / "Chinook.db").absolute()
 
 # New function to run agent with custom prompt
 def run_with_prompt(input, tools, llm, prompt):
-    llm.add_prompt(prompt)
+    prompt + " " + input
     result = llm.run(input, tools=tools)
-    llm.clear_prompt()
     return result
 
 SAVED_SESSIONS = {
@@ -136,9 +135,6 @@ with tabs[1]:
                 file_name=file_name,
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
-
-
-
 
 output_container = st.empty()
 if with_clear_container(submit_clicked):
