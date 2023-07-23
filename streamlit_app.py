@@ -122,6 +122,34 @@ with tabs[0]:
         submit_clicked = st.form_submit_button("Submit Inquiry")
         ## Add langchain preprompt?
 
+#justin code drop
+with tabs[1]:
+    df = pd.ad_csv('coffeeshop.csv')
+
+    st.dataframe(
+        df,
+        column_config={
+            "product_name": "Product Name",
+            "supplier_name": "Supplier Name",
+            #"address": "Address",
+            "price": "Price",
+            "quality": "Quality",
+            "environmental_score": st.column_config.NumberColumn(
+                "Environmental Score",
+                help="Stars",
+                format="%d ⭐",
+            ),
+            "ETA": st.column_config.ProgressColumn(
+                "ETA",
+                help="ETA",
+                format="%f miles",
+                min_value=0,
+                max_value=3000
+            ),
+        },
+        hide_index=True,
+    )
+
 output_container = st.empty()
 answer = ''
 if with_clear_container(submit_clicked):
