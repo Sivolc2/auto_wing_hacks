@@ -71,8 +71,6 @@ tools = [
     )
 ]
 
-mrkl = initialize_agent(tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True) 
-
 tool_order_prompt = """
 The tools should be used in this order for answering questions:
 1. SearchG - Use this to search the internet for general information
@@ -81,6 +79,12 @@ The tools should be used in this order for answering questions:
 4. Mermaid - Use this to generate mermaid diagrams
 You should follow this order whenever possible when answering the user's questions.
 """
+
+# search = initialize_agent(tools, llm, tool_order_prompt, verbose=True)
+mrkl = initialize_agent(tools, llm, 
+                        agent_path="./the_agent.json", 
+                        verbose=True)
+
 
 # Existing imports and setup
 tabs = st.tabs(["QA", "Product Search"])
@@ -140,6 +144,6 @@ if with_clear_container(submit_clicked):
 
     # If we've saved this question, play it back instead of actually running LangChain
     # (so that we don't exhaust our API calls unnecessarily)
-    answer = mrkl.run(tool_order_prompt + " " + user_input, callbacks=[st_callback])[0:len(tool_order_prompt)]
+    answer = mrkl.run(user_input, callbacks=[st_callback])[0:len(tool_order_prompt)]
 
     answer_container.write(answer)
