@@ -100,7 +100,7 @@ tools = [
 
 # search = initialize_agent(tools, llm, tool_order_prompt, verbose=True)
 mrkl = initialize_agent(tools, llm, 
-                        agent_path="./the_agent.json", 
+                        agent_path="./search_agent.json", 
                         verbose=True)
 
 
@@ -155,7 +155,7 @@ with tabs[1]:
 with tabs[2]:
 
     # Streamlit configurations
-    st.set_page_config(page_title="Supplier Locations")
+    # st.set_page_config(page_title="Supplier Locations")
 
     # Environment setup
     os.environ["MAPBOX_API_KEY"] = "YOUR_MAPBOX_ACCESS_TOKEN"
