@@ -20,6 +20,7 @@ from langchain.utilities import GoogleSerperAPIWrapper
 
 from product_search import search_for_products
 
+import pandas as pd
 import os
 
 DB_PATH = (Path(__file__).parent / "Chinook.db").absolute()
