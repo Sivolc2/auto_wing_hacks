@@ -78,7 +78,7 @@ tools = [
     Tool(
         name="SearchG",
         func=search_google.run,
-        description="useful for when you need to ask with search"
+        description="Search and find products online, prices, location, etc"
     ),
 
 ]
