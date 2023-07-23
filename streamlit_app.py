@@ -87,7 +87,7 @@ mrkl = initialize_agent(tools, llm,
 
 
 # Existing imports and setup
-tabs = st.tabs(["QA", "Product Search"])
+tabs = st.tabs(["QA", "Product Search", "Map"])
 
 with tabs[0]:
     with st.form(key="form"):
