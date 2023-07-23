@@ -93,7 +93,7 @@ tools = [
     Tool(
         name="Compute Prices",
         func=search_google.run,
-        description="Find and estimate average cost of a good for product"
+        description="Find and estimate average cost of selling product from the business"
     ),
 ]
 
