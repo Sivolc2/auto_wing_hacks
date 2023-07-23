@@ -71,14 +71,14 @@ tools = [
     )
 ]
 
-tool_order_prompt = """
-The tools should be used in this order for answering questions:
-1. SearchG - Use this to search the internet for general information
-2. Calculator - Use this for any math calculations 
-3. FooBar DB - Use this to look up information in the FooBar database
-4. Mermaid - Use this to generate mermaid diagrams
-You should follow this order whenever possible when answering the user's questions.
-"""
+# tool_order_prompt = """
+# The tools should be used in this order for answering questions:
+# 1. SearchG - Use this to search the internet for general information
+# 2. Calculator - Use this for any math calculations 
+# 3. FooBar DB - Use this to look up information in the FooBar database
+# 4. Mermaid - Use this to generate mermaid diagrams
+# You should follow this order whenever possible when answering the user's questions.
+# """
 
 # search = initialize_agent(tools, llm, tool_order_prompt, verbose=True)
 mrkl = initialize_agent(tools, llm, 
@@ -136,97 +136,94 @@ with tabs[1]:
 
 with tabs[2]:
 
-# Streamlit configurations
-st.set_page_config(page_title="Supplier Locations")
+    # Streamlit configurations
+    st.set_page_config(page_title="Supplier Locations")
 
-# Environment setup
-os.environ["MAPBOX_API_KEY"] = "YOUR_MAPBOX_ACCESS_TOKEN"
+    # Environment setup
+    os.environ["MAPBOX_API_KEY"] = "YOUR_MAPBOX_ACCESS_TOKEN"
 
-# Create geocoder and directions clients
-geocoder = Geocoder(access_token=os.environ["MAPBOX_API_KEY"])
-directions = Directions(access_token=os.environ["MAPBOX_API_KEY"])
+    # Create geocoder and directions clients
+    geocoder = Geocoder(access_token=os.environ["MAPBOX_API_KEY"])
+    directions = Directions(access_token=os.environ["MAPBOX_API_KEY"])
 
-# Get coordinates by address
-def get_location_by_address(address):
-    response = geocoder.forward(address)
-    if response.status_code == 200:
-        coordinates = response.json()['features'][0]['geometry']['coordinates']
-        return coordinates[::-1]
-    else:
-        return None
+    # Get coordinates by address
+    def get_location_by_address(address):
+        response = geocoder.forward(address)
+        if response.status_code == 200:
+            coordinates = response.json()['features'][0]['geometry']['coordinates']
+            return coordinates[::-1]
+        else:
+            return None
 
-# Shipping times
-shipping_times = {
-    'Drop-ship': timedelta(hours=3),
-    'Next day': timedelta(days=1),
-    'Weekly': timedelta(weeks=1),
-}
+    # Shipping times
+    shipping_times = {
+        'Drop-ship': timedelta(hours=3),
+        'Next day': timedelta(days=1),
+        'Weekly': timedelta(weeks=1),
+    }
 
-# Read the data
-data = pd.read_excel('suppliers_data.xlsx')
+    # Read the data
+    data = pd.read_excel('suppliers_data.xlsx')
 
-# Add location data
-data['location'] = data['Address'].apply(lambda x: get_location_by_address(x))
-data[['latitude', 'longitude']] = pd.DataFrame(data['location'].tolist(), index=data.index)
+    # Add location data
+    data['location'] = data['Address'].apply(lambda x: get_location_by_address(x))
+    data[['latitude', 'longitude']] = pd.DataFrame(data['location'].tolist(), index=data.index)
 
-# Zip Code Input from User
-zip_code = st.text_input("Enter your zip code:")
+    # Zip Code Input from User
+    zip_code = st.text_input("Enter your zip code:")
 
-# Fetch Top 3 suppliers based on ETA
-if zip_code:
-    customer_location = get_location_by_address(zip_code)
-    data['Distance'] = data['location'].apply(lambda x: geopy.distance.distance(x, customer_location).miles)
+    # Fetch Top 3 suppliers based on ETA
+    if zip_code:
+        customer_location = get_location_by_address(zip_code)
+        data['Distance'] = data['location'].apply(lambda x: geopy.distance.distance(x, customer_location).miles)
 
-    for method, time_delta in shipping_times.items():
-        data[f'ETA_{method}'] = data['location'].apply(lambda x: calculate_eta(x, customer_location, method))
+        for method, time_delta in shipping_times.items():
+            data[f'ETA_{method}'] = data['location'].apply(lambda x: calculate_eta(x, customer_location, method))
 
-    data_top3 = data.nsmallest(3, 'Distance')
+        data_top3 = data.nsmallest(3, 'Distance')
 
-    # Tabs
-    list_tab, map_tab = st.tabs(["List View", "Map View"])
+        # Tabs
+        list_tab, map_tab = st.tabs(["List View", "Map View"])
 
-    with list_tab:
-        list_tab.write(data_top3)
+        with list_tab:
+            list_tab.write(data_top3)
 
-    with map_tab:
-        # Map Visualization
-        view_state = pdk.ViewState(
-            latitude=data_top3['latitude'].mean(),
-            longitude=data_top3['longitude'].mean(),
-            zoom=11,
-            pitch=0)
+        with map_tab:
+            # Map Visualization
+            view_state = pdk.ViewState(
+                latitude=data_top3['latitude'].mean(),
+                longitude=data_top3['longitude'].mean(),
+                zoom=11,
+                pitch=0)
 
-        layer = pdk.Layer(
-            'ScatterplotLayer',
-            data_top3,
-            get_position='[longitude, latitude]',
-            get_color='[200, 30, 0, 160]',
-            get_radius=200,
-            pickable=True)
+            layer = pdk.Layer(
+                'ScatterplotLayer',
+                data_top3,
+                get_position='[longitude, latitude]',
+                get_color='[200, 30, 0, 160]',
+                get_radius=200,
+                pickable=True)
 
-        r = pdk.Deck(
-            layers=[layer],
-            initial_view_state=view_state,
-            tooltip={
-                "text": "{Address}\nETA_Drop-ship: {ETA_Drop-ship}\nETA_Next day: {ETA_Next day}\nETA_Weekly: {ETA_Weekly}"
-            })
+            r = pdk.Deck(
+                layers=[layer],
+                initial_view_state=view_state,
+                tooltip={
+                    "text": "{Address}\nETA_Drop-ship: {ETA_Drop-ship}\nETA_Next day: {ETA_Next day}\nETA_Weekly: {ETA_Weekly}"
+                })
 
-        map_tab.pydeck_chart(r)
+            map_tab.pydeck_chart(r)
 
-def calculate_eta(start_location, end_location, shipping_method):
-    shipping_time = shipping_times.get(shipping_method)
-    if shipping_time is None:
-        raise ValueError(f"Unknown shipping method: {shipping_method}")
+    def calculate_eta(start_location, end_location, shipping_method):
+        shipping_time = shipping_times.get(shipping_method)
+        if shipping_time is None:
+            raise ValueError(f"Unknown shipping method: {shipping_method}")
 
-    response = directions.directions([start_location[::-1], end_location[::-1]], 'mapbox/driving')
-    travel_time = response.json()['routes'][0]['duration']  # in seconds
-    order_time = datetime.now()
-    eta = order_time + shipping_time + timedelta(seconds=travel_time)
+        response = directions.directions([start_location[::-1], end_location[::-1]], 'mapbox/driving')
+        travel_time = response.json()['routes'][0]['duration']  # in seconds
+        order_time = datetime.now()
+        eta = order_time + shipping_time + timedelta(seconds=travel_time)
 
-    return eta.strftime('%Y-%m-%d %H:%M:%S')
-
-if __name__ == "__main__":
-    pass
+        return eta.strftime('%Y-%m-%d %H:%M:%S')
 
 output_container = st.empty()
 if with_clear_container(submit_clicked):
@@ -238,7 +235,7 @@ if with_clear_container(submit_clicked):
 
     # If we've saved this question, play it back instead of actually running LangChain
     # (so that we don't exhaust our API calls unnecessarily)
-    answer = mrkl.run(user_input, callbacks=[st_callback])[0:len(tool_order_prompt)]
+    answer = mrkl.run(user_input, callbacks=[st_callback])
 
     answer_container.write(answer)
 
