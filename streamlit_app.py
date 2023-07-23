@@ -238,7 +238,8 @@ if with_clear_container(submit_clicked):
     answer = mrkl.run(user_input, callbacks=[st_callback])
 
     answer_container.write(answer)
+    s = answer
 
-result = json_agent(answer)
+result = json_agent(s)
 st.write(f'Exporting list: {result}')
 
