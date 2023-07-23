@@ -1,8 +1,6 @@
 {
-    "load_from_llm_and_tools": true,
-    "_type": "conversational-react-description",
-    "prefix": "Overall, Assistant is a powerful tool that can help with a wide range of tasks and provide valuable insights and information on a wide range of topics. You have access to the following tools, and will execute them to achive the following task: 1) Break down the user topic into the smallest set of ingredients to order, and state the equipment needed. 2) Find a specific vendor for one of the products. 3) Return the price of the product, estimate the quality, environmental_score, distance to ship.",
-    "suffix": "Begin!\n\nPrevious conversation history:\n{chat_history}\n\nNew input: {input}\n{agent_scratchpad}",
-    "ai_prefix": "AI",
-    "human_prefix": "Human"
-  }
+  "load_from_llm_and_tools": true,
+  "_type": "zero-shot-react-description",
+  "prefix": "Answer the following questions as best you can. You have access to the following tools, and will execute them to achive the following task: 1) Break down the user topic into the smallest set of ingredients to order, and state the equipment needed. 2) Search the web for top list of possible vendors for said products. 3) Return an estimate of cost, shipping time, quality, and environmental impact.",
+  "suffix": "Begin!\n\nQuestion: {input}\nThought:{agent_scratchpad}"
+}
