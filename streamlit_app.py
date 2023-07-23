@@ -102,7 +102,7 @@ json_agent = initialize_agent(tools, llm,
                         verbose=True)
 
 # Existing imports and setup
-tabs = st.tabs(["QA", "Product Search", "Map"])
+tabs = st.tabs(["Product Search", "QA", "Map"])
 
 with tabs[0]:
     with st.form(key="form"):
@@ -113,41 +113,41 @@ with tabs[0]:
         ## Add langchain preprompt?
 
 
-with tabs[1]:
-    products = st.text_input("Enter comma-separated list of products")
+# with tabs[1]:
+#     products = st.text_input("Enter comma-separated list of products")
     
-    if products:
-        products = [p.strip() for p in products.split(",")]
+#     if products:
+#         products = [p.strip() for p in products.split(",")]
 
-        for product in products:
-            st.header(product)
+#         for product in products:
+#             st.header(product)
 
-            # Get the result from the agent
-            # result = mrkl.run(product, tool="Search Google")
+#             # Get the result from the agent
+#             # result = mrkl.run(product, tool="Search Google")
 
-            # result = mrkl.run(tool="Search Google")
-            result = mrkl.run(f"What are some options to buy {product}?", "SearchG")
-            # Assume result is a list of dictionaries for this example
-            df = pd.DataFrame(result)
+#             # result = mrkl.run(tool="Search Google")
+#             result = mrkl.run(f"What are some options to buy {product}?", "SearchG")
+#             # Assume result is a list of dictionaries for this example
+#             df = pd.DataFrame(result)
 
-            # Summarize the data as required (this step depends on the structure and nature of your data)
-            # df = df.groupby(...).sum()  # Example summarization
+#             # Summarize the data as required (this step depends on the structure and nature of your data)
+#             # df = df.groupby(...).sum()  # Example summarization
             
-            file_name = f"{product.replace(' ','_')}.xlsx"
+#             file_name = f"{product.replace(' ','_')}.xlsx"
 
-            # Save to Excel
-            df.to_excel(file_name, index=False)
+#             # Save to Excel
+#             df.to_excel(file_name, index=False)
 
-            # Display the DataFrame
-            st.dataframe(df)
+#             # Display the DataFrame
+#             st.dataframe(df)
 
-            # Provide download link
-            st.download_button(
-                label="📥 Download Results",
-                data=df.to_excel(index=False, engine='openpyxl'),
-                file_name=file_name,
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
+#             # Provide download link
+#             st.download_button(
+#                 label="📥 Download Results",
+#                 data=df.to_excel(index=False, engine='openpyxl'),
+#                 file_name=file_name,
+#                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+#             )
 
 # with tabs[2]:
 
@@ -242,7 +242,10 @@ if with_clear_container(submit_clicked):
     answer = mrkl.run(user_input, callbacks=[answer, st_callback])
 
     answer_container.write(answer)
-    st.write(result = answer)
+    st.write(
+    os.environ["answer"] == answer,
+        )
 
-jr = json_agent(result)
+
+jr = json_agent(os.environ["answer"])
 st.write(f'Exporting: {jr}')
