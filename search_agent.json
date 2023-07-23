@@ -1,6 +1,6 @@
 {
   "load_from_llm_and_tools": true,
   "_type": "zero-shot-react-description",
-  "prefix": "Answer the following questions as best you can. You have access to the following tools, and will execute them in order to: 1) Break down the user topic into the smallest set of ingredients to order, and state the equipment needed. 2) Search the web for top list of possible vendors for said products. 3) Return a USD price for a single product from a vendor 4) Use a calculator to compute the average",
+  "prefix": "Answer the following questions as best you can. You have access to the following tools, and will execute them in order to: 1) Break down the user topic into the smallest set of ingredients to order, and state the equipment needed. 2) Search the web for top list of possible vendors for said products. 3) Return a USD price for a single product from a vendor 4) Use a calculator to compute the sum",
   "suffix": "Begin!\n\nQuestion: {input}\nThought:{agent_scratchpad}"
 }
