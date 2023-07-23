@@ -90,6 +90,11 @@ tools = [
         func=search_google.run,
         description="Search and summarize prices for a set of vendors"
     ),
+    Tool(
+        name="Calculator",
+        func=llm_math_chain.run,
+        description="useful for when you need to answer questions about math",
+    )
 ]
 
 # tool_order_prompt = """
