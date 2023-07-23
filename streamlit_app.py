@@ -127,9 +127,6 @@ with tabs[1]:
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
 
-
-
-
 output_container = st.empty()
 if with_clear_container(submit_clicked):
     output_container = output_container.container()
