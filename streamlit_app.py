@@ -91,10 +91,10 @@ tools = [
         description="Search and summarize prices for a set of vendors"
     ),
     Tool(
-        name="Calculator",
-        func=llm_math_chain.run,
-        description="useful for when you need to answer questions about math",
-    )
+        name="Search Averages",
+        func=search_google.run,
+        description="Find average cost for a specific product from vendor"
+    ),
 ]
 
 # tool_order_prompt = """
