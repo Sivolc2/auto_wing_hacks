@@ -7,8 +7,8 @@ from langchain.agents.agent_types import AgentType
 from langchain.callbacks import StreamlitCallbackHandler
 from langchain.agents.agent_toolkits import SQLDatabaseToolkit
 
-st.set_page_config(page_title="LangChain: Chat with SQL DB", page_icon="🦜")
-st.title("🦜 LangChain: Chat with SQL DB")
+# st.set_page_config(page_title="LangChain: Chat with SQL DB", page_icon="🦜")
+# st.title("🦜 LangChain: Chat with SQL DB")
 
 
 @st.cache_resource(ttl="2h")

@@ -4,8 +4,8 @@ from langchain.chat_models import ChatOpenAI
 from langchain.tools import DuckDuckGoSearchRun
 import streamlit as st
 
-st.set_page_config(page_title="LangChain: Chat with search", page_icon="🦜")
-st.title("🦜 LangChain: Chat with search")
+# st.set_page_config(page_title="LangChain: Chat with search", page_icon="🦜")
+# st.title("🦜 LangChain: Chat with search")
 
 openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
 if "messages" not in st.session_state:

@@ -10,8 +10,8 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.vectorstores import DocArrayInMemorySearch
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-st.set_page_config(page_title="LangChain: Chat with Documents", page_icon="🦜")
-st.title("🦜 LangChain: Chat with Documents")
+# st.set_page_config(page_title="LangChain: Chat with Documents", page_icon="🦜")
+# st.title("🦜 LangChain: Chat with Documents")
 
 
 @st.cache_resource(ttl="1h")
