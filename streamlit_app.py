@@ -226,6 +226,7 @@ with tabs[1]:
 
 
 output_container = st.empty()
+answer = ''
 if with_clear_container(submit_clicked):
     output_container = output_container.container()
     output_container.chat_message("user").write(user_input)
@@ -235,8 +236,10 @@ if with_clear_container(submit_clicked):
 
     # If we've saved this question, play it back instead of actually running LangChain
     # (so that we don't exhaust our API calls unnecessarily)
-    answer = mrkl.run(user_input, callbacks=[st_callback])
+    answer = mrkl.run(user_input, callbacks=[answer, st_callback])
 
     answer_container.write(answer)
-    result = json_agent(answer)
-    st.write(f'Exporting list: {result}')
+    st.write(result = answer)
+
+jr = json_agent(result)
+st.write(f'Exporting: {jr}')
