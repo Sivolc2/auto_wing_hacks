@@ -76,11 +76,20 @@ tools = [
     #    description="will display the provided mermaid diagram to the user. Input should be a mermaid diagram"
     # ),
     Tool(
-        name="SearchG",
+        name="Search Google",
         func=search_google.run,
-        description="Search and find products online, prices, location, etc"
+        description="Search and learn about topic"
     ),
-
+    Tool(
+        name="Search Products",
+        func=search_google.run,
+        description="Search and find product vendors, locations, etc"
+    ),
+    Tool(
+        name="Search Prices",
+        func=search_google.run,
+        description="Search and summarize prices for a set of vendors"
+    ),
 ]
 
 # tool_order_prompt = """
@@ -122,8 +131,6 @@ if with_clear_container(submit_clicked):
     answer_container = output_container.chat_message("assistant", avatar="🦜")
     st_callback = StreamlitCallbackHandler(answer_container)
 
-    # If we've saved this question, play it back instead of actually running LangChain
-    # (so that we don't exhaust our API calls unnecessarily)
     answer = mrkl.run(user_input, callbacks=[st_callback])
     
     # os.environ["answer"] = answer
